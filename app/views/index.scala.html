@@ -1,0 +1,26 @@
+@(message: String)
+
+@js = {
+  <!-- @helper.requireJs(core = routes.Assets.at("js/require.js").url, module = routes.Assets.at("js/graphApp").url) -->
+}
+
+@main("Italian Startup Directory", js) {
+
+<!-- Main Div ================================================= -->
+<div class="span12 graph-row">
+  <div class="row">
+
+    <!-- Sidebar ================================================== -->
+    <div class="span2 graph-sidebar">
+      <ul class="nav nav-list">
+        <li style="visibility: hidden;"><a href="#"></a></li>
+      </ul>
+    </div> <!-- end sidebar -->
+
+    <!-- Body ================================================== -->
+    <div class="span10 graph-body">
+    </div> <!-- end graph body -->
+
+  </div>
+</div> <!-- end main div -->
+}
