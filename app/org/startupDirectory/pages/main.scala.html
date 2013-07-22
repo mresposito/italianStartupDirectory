@@ -3,6 +3,23 @@
 <!DOCTYPE html>
 
 <html>
+  <style>
+    @@font-face {
+      font-family: quickLight;
+      src: url(@routes.Assets.at("font/Quicksand_Light.otf"))
+    }
+
+    @@font-face {
+      font-family: quick;
+      src: url(@routes.Assets.at("font/Quicksand_Book.otf"))
+    }
+
+    @@font-face {
+      font-family: openSans;
+      src: url(http://fonts.googleapis.com/css?family=Open+Sans)
+    }
+  </style>
+
   <head>
     <title>@title</title>
     <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/main.css")">
@@ -30,14 +47,14 @@
               <ul class="nav">
                 <li><a class="header-link" href="/persone">Persone</a></li>
                 <li><a class="header-link" href="/startup">Startup</a></li>
-                <li><a class="header-link" href="/capitale">Capitale</a></li>
+                <li><a class="header-link" href="/risorse">Risorse</a></li>
               </ul>
             </div><!--/.nav-collapse -->
           </div>
         </div>
       </div>
 
-      <div class="container realBody" >
+      <div class="realBody" >
         @content
       </div>
     </div> <!-- end bodyWrap -->
@@ -54,7 +71,7 @@
             <a href="/about" class="footerContentLink">About</a>
           </div>
           <div class="span4 footerContent">
-            <a href="/contact" class="footerContentLink">Contattaci</a>
+            <a href="mailto:michele@@startupdirectory.org" class="footerContentLink">Contattaci</a>
           </div>
           <div class="span4 footerContent">
             <a href="/contact" class="footerContentLink">Privacy</a>
