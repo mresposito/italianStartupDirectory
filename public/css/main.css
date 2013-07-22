@@ -130,7 +130,7 @@ body {
 /* Set the fixed height of the footer here */
 #push, #footer {
   border-top: 1px solid #e0e0e0;
-  height: 60px;
+  height: 80px;
 }
 
 #footer {
@@ -179,9 +179,9 @@ body {
   background-position: 0px -90px;
   height: 400px;
 
-  -webkit-box-shadow: 1px 2px 21px 1px rgba(0,0,0,0.75);
-  -moz-box-shadow: 1px 2px 21px 1px rgba(0,0,0,0.75);
-  box-shadow: 1px 2px 21px 1px rgba(0,0,0,0.75);
+  -webkit-box-shadow: 1px 2px 10px 1px rgba(0,0,0,0.75);
+  -moz-box-shadow: 1px 2px 10px 1px rgba(0,0,0,0.75);
+  box-shadow: 1px 2px 10px 1px rgba(0,0,0,0.75);
 }
 
 .indexImgHeader {
@@ -200,7 +200,10 @@ body {
 
 .face {
   position: relative;
-  border: 2px solid #e8e6e6;
+  border: 1px solid #e8e6e6;
+  -webkit-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);
   width: 120px;
   height: 120px;
 }
