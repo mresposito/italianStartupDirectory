@@ -16,7 +16,10 @@ class EntityStore (val driver: ExtendedProfile) {
     def surname = column[String]("surname")
     def email = column[Option[String]]("email")
     def description = column[Option[String]]("email")
+
     def workStatus = column[Int]("work_status") // -1
+    def size = column[Int]("size")
+    def age = column[Int]("age")
 
     def isActive = column[Int]("is_active") == 1
     def isStaff = column[Int]("is_staff") == 1

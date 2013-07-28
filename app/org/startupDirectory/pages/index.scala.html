@@ -1,5 +1,13 @@
 @js = {
   <!-- @helper.requireJs(core = routes.Assets.at("js/require.js").url, module = routes.Assets.at("js/graphApp").url) -->
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=1380508728831100";
+  fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
 }
 
 @makeImage(path: String) = {
@@ -20,7 +28,8 @@
       <p> 
         Scopri tutte le startup italiane, e le persone che le creano.
       </p>
-      <img src="https://fbcdn-dragon-a.akamaihd.net/hphotos-ak-prn1/851579_209602122530903_1060396115_n.png">
+      <div id="fb-root">
+      <img src="https://fbcdn-dragon-a.akamaihd.net/hphotos-ak-prn1/851579_209602122530903_1060396115_n.png"></div>
     </div>
   </div>
 </div> <!-- end indexImg -->

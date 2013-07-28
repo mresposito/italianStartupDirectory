@@ -2,12 +2,14 @@
  * Font faces
  */
 * {
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
    font-weight: 300;
+   line-height: 24px;
 }
 
 .quick-book-font {
   font-family: quick;
+   font-weight: 200;
 }
 
 textarea {
@@ -15,7 +17,7 @@ textarea {
 }
 
 a.logo {
-  font-family: quickLight;
+  font-family: quick;
   text-decoration: none;
   float: left;
   display: block;
@@ -30,12 +32,11 @@ a.logo {
 .header-link {
   font-size: 18px;
   font-family: quick;
-  color: black;
-  text-decoration: underline;
 }
 
-.header-link:hover {
-  color: black;
+a.header-link:hover {
+  color: black !important;
+  text-decoration: underline !important;
 }
 
 input {
@@ -190,6 +191,10 @@ body {
 }
 
 .indexImgHeader {
+}
+
+.navbarUserControl {
+  margin-left: 30px;
 }
 
 .indexThreeDescriptions {

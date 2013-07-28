@@ -9,6 +9,10 @@ object Application extends Controller {
     Ok(org.startupDirectory.pages.html.index())
   }
 
+  def search = Action {
+    Ok(org.startupDirectory.pages.html.search())
+  }
+
   // def persone = Action {
   //   Ok(org.startupDirectory.pages.html.persone())
   // }

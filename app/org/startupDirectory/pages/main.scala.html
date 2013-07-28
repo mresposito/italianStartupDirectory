@@ -33,6 +33,29 @@
   </style>
 
   <body>
+    <div id="fb-root"></div>
+<script>
+  // Additional JS functions here
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1380508728831100', // App ID
+      channelUrl : 'https://www.startupdirectory.it/channel.html', // Channel File
+      status     : true, // check login status
+      cookie     : true, // enable cookies to allow the server to access the session
+      xfbml      : true  // parse XFBML
+    });
+    // Additional init code here
+
+  };
+  // Load the SDK asynchronously
+  (function(d){
+     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement('script'); js.id = id; js.async = true;
+     js.src = "//connect.facebook.net/en_US/all.js";
+     ref.parentNode.insertBefore(js, ref);
+   }(document));
+</script>
     <!-- Navbar ================================================== -->
 
     <div id="bodyWrap">
@@ -46,14 +69,18 @@
             <a class="logo" href="#">Italian Startup Directory</a>
             <div class="nav-collapse collapse" style="float: right; margin-right:40px;">
               <ul class="nav">
-                <li><a class="header-link" href="/persone">Persone</a></li>
-                <li><a class="header-link" href="/startup">Startup</a></li>
-                <li><a class="header-link" href="/risorse">Risorse</a></li>
+                <li class="active"><a class="header-link" href="/">Home</a></li>
+                <!-- <li><a class="header&#45;link" href="/startup">Startup</a></li> -->
+                <li><a class="header-link" href="/search">Esplora</a></li>
+                <li class="navbarUserControl">
+                  <a class="header-link" href="/login">Login</a>
+                </li>
               </ul>
             </div><!--/.nav-collapse -->
           </div>
         </div>
       </div>
+      <!-- end navbar -->
 
       <div class="realBody">
         @content
