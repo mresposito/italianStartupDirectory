@@ -27,6 +27,7 @@
     <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("img/favicon.png")">
     <!-- Bootstrap -->
     <link href="@routes.Assets.at("css/bootstrap.min.css")" rel="stylesheet" media="screen">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
   </head>
 
   <style>
@@ -34,28 +35,32 @@
 
   <body>
     <div id="fb-root"></div>
-<script>
-  // Additional JS functions here
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '1380508728831100', // App ID
-      channelUrl : 'https://www.startupdirectory.it/channel.html', // Channel File
-      status     : true, // check login status
-      cookie     : true, // enable cookies to allow the server to access the session
-      xfbml      : true  // parse XFBML
-    });
-    // Additional init code here
+    <script>
+      // Additional JS functions here
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '1380508728831100', // App ID
+          channelUrl : null, // Channel File
+          status     : true, // check login status
+          cookie     : true, // enable cookies to allow the server to access the session
+          xfbml      : true  // parse XFBML
+        });
+        // Additional init code here
+        FB.getLoginStatus(function(response) {
+          console.log(response);
+        }, true);
+        
+      };
+      // Load the SDK asynchronously
+      (function(d){
+        var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement('script'); js.id = id; js.async = true;
+        js.src = "https://connect.facebook.net/en_US/all.js";
+        ref.parentNode.insertBefore(js, ref);
+      }(document));
 
-  };
-  // Load the SDK asynchronously
-  (function(d){
-     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement('script'); js.id = id; js.async = true;
-     js.src = "//connect.facebook.net/en_US/all.js";
-     ref.parentNode.insertBefore(js, ref);
-   }(document));
-</script>
+    </script>
     <!-- Navbar ================================================== -->
 
     <div id="bodyWrap">
@@ -73,41 +78,42 @@
                 <!-- <li><a class="header&#45;link" href="/startup">Startup</a></li> -->
                 <li><a class="header-link" href="/search">Esplora</a></li>
                 <li class="navbarUserControl">
-                  <a class="header-link" href="/login">Login</a>
-                </li>
-              </ul>
-            </div><!--/.nav-collapse -->
-          </div>
-        </div>
+            <a class="header-link" href="/login">Login</a>
+            </li>
+          </ul>
+        </div><!--/.nav-collapse -->
       </div>
-      <!-- end navbar -->
+    </div>
+  </div>
+  <!-- end navbar -->
 
-      <div class="realBody">
-        @content
-      </div>
-    </div> <!-- end bodyWrap -->
+  <div class="realBody">
+    
+    @content
+  </div>
+</div> <!-- end bodyWrap -->
 
-    <div id="footer">
-        <div class="italianFlagRow noSpace">
-          <div class="italianFlag italianFlagRed"></div>
-          <div class="italianFlag italianFlagWhite"></div>
-          <div class="italianFlag italianFlagGreen"></div>
-        </div>
-      <div class="container" style="margin-top: 15px;">
-        <div class="container narrow row-fluid">
-          <div class="span4 footerContent">
-            <a href="/about" class="footerContentLink">About</a>
-          </div>
-          <div class="span4 footerContent">
-            <a href="mailto:michele@@startupdirectory.org" class="footerContentLink">Contattaci</a>
-          </div>
-          <div class="span4 footerContent">
-<a href="http://www.iubenda.com/privacy-policy/924689" class="footerContentLink iubenda-white iubenda-embed" title="Privacy Policy">Privacy</a><script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src = "http://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>
-            
-          </div>
-        </div>
+<div id="footer">
+  <div class="italianFlagRow noSpace">
+    <div class="italianFlag italianFlagRed"></div>
+    <div class="italianFlag italianFlagWhite"></div>
+    <div class="italianFlag italianFlagGreen"></div>
+  </div>
+  <div class="container" style="margin-top: 15px;">
+    <div class="container narrow row-fluid">
+      <div class="span4 footerContent">
+        <a href="/about" class="footerContentLink">About</a>
       </div>
-    </div><!-- end footer -->
+      <div class="span4 footerContent">
+        <a href="mailto:michele@@startupdirectory.org" class="footerContentLink">Contattaci</a>
+      </div>
+      <div class="span4 footerContent">
+        <a href="http://www.iubenda.com/privacy-policy/924689" class="footerContentLink iubenda-white iubenda-embed" title="Privacy Policy">Privacy</a><script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src = "http://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>
+
+      </div>
+    </div>
+  </div>
+</div><!-- end footer -->
   </body>
 
 
