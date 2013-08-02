@@ -10,9 +10,9 @@ function fbLogin() {
           data: response
         }).done(function() {
           console.log("logged in");
+          window.location.reload(true);
         });
         makeLogout();
-        window.location.reload(true);
       });
 
     } else {
@@ -43,7 +43,7 @@ var fbLogout = function () {
       url: "/logout"
     }).done(function() {
       makeLogin();
+      window.location.reload(true);
     });
   });
-  window.location.reload(true);
 }

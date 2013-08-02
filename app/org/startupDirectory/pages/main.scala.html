@@ -1,4 +1,4 @@
-@(title: String, javascript: Html = Html(""))(content: Html)
+@(title: String, javascript: Html = Html(""), login: Boolean = false)(content: Html)
 
 <!DOCTYPE html>
 <html lang="it">
@@ -74,7 +74,11 @@
                 <!-- <li><a class="header&#45;link" href="/startup">Startup</a></li> -->
                 <li><a class="header-link" href="/search">Esplora</a></li>
                 <li class="navbarUserControl">
-            <a class="header-link logControl clickable" onclick="fbLogin()">Login</a>
+            @if(login) {
+              <a class="header-link logControl clickable" onclick="fbLogout()">Logout</a>
+            } else {
+              <a class="header-link logControl clickable" onclick="fbLogin()">Login</a>
+            }
             </li>
           </ul>
         </div><!--/.nav-collapse -->
