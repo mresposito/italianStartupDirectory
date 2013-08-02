@@ -1,0 +1,73 @@
+@js = {
+  <!-- @helper.requireJs(core = routes.Assets.at("js/require.js").url, module = routes.Assets.at("js/graphApp").url) -->
+  <!-- <script src="@routes.Assets.at("js/fbControl.js")" type="text/javascript"></script> -->
+}
+
+@makeImage(path: String) = {
+  <span class="imageRoundWrapper">
+    <img class="img-circle face" src="@path"/>
+  </span>
+}
+
+@main("Italian Startup Directory", js) {
+
+<!-- Main Div ================================================= -->
+<div class="indexImg">
+  <div class="container row">
+    <div class="span4 offset9 indexImgBody">
+      <div class="indexImgHeader">
+        <h1>La tua guida all'innovazione</h1>
+      </div>
+      <p> 
+        Scopri tutte le startup italiane, e le persone che le creano.
+      </p>
+      <a class="clickable" onclick="fbLogin()">
+        <div class="fbLoginButton">
+          <div class="container fbLoginVertical">
+            <i class="icon-facebook-sign fbLoginIcon"></i>
+            Login with Facebook
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div> <!-- end indexImg -->
+
+<!-- <div class="indexJoinNow"> -->
+<!--   <div class="container indexJoinContent"> -->
+<!--     <h3 class="align&#45;center" style="font&#45;size: 40px;">Unisciti al movimento</h3> -->
+<!--   </div> -->
+<!-- </div> -->
+
+<div class="container indexThreeDescriptions">
+  <div class="row">
+    <div class="span4">
+        <div class="indexReducer">
+        @makeImage("/assets/img/quarto.jpg")
+        <h3 class="text-center">Persone</h3>
+        <p>Italian Startup Directory é costruito da uno startupper per startuppers. Qui puoi trovare le persone delle quali hai bisogno per realizzare le tue idee. 
+        </p>
+        <a href="/persone"><button class="btn btnSquare btnHomePage">Naviga la comunità</button></a>
+      </div>
+    </div>
+    <div class="span4">
+      <div class="indexReducer">
+        @makeImage("/assets/img/start.jpg")
+        <h3 class="text-center">Startup</h3>
+          <p>Vuoi sentire il brivido di lavorare in una startup? Cerchi qualche azienda che possa fare al caso tuo? Startup Directory ti aiuta a trovare le startups perfette per te!
+        </p>
+        <a href="/startup"><button class="btn btnSquare btnHomePage">Trova startups</button></a>
+      </div>
+    </div>
+    <div class="span4">
+      <div class="indexReducer">
+        @makeImage("/assets/img/coin.jpg")
+        <h3 class="text-center">Risorse</h3>
+          <p>Hai un idea e vuoi realizzarla? Questo é il posto giusto. Italian Startup Directory ti aiuta a cercare angel investors, venture capital o acceleratori che fanno al caso tuo.  
+        </p>
+        <a href="/risorse"><button class="btn btnSquare btnHomePage">Scopri risorse</button></a>
+      </div>
+    </div>
+  </div>
+</div> <!-- end indexThreeDescriptions -->
+}

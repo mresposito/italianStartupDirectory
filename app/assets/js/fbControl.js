@@ -1,11 +1,18 @@
-function fbLogin(){
+function fbLogin() {
   FB.login(function(response) {
     if (response.authResponse) {
       access_token = response.authResponse.accessToken; //get access token
       user_id = response.authResponse.userID; //get FB UID
 
       FB.api('/me', function(response) {
+        $.ajax({
+          url: "/login",
+          data: response
+        }).done(function() {
+          console.log("logged in");
+        });
         makeLogout();
+        window.location.reload(true);
       });
 
     } else {
@@ -32,6 +39,11 @@ var setAttrLogControl = function(log) {
 
 var fbLogout = function () {
   FB.logout(function(response) {
-    makeLogin();
+    $.ajax({
+      url: "/logout"
+    }).done(function() {
+      makeLogin();
+    });
   });
+  window.location.reload(true);
 }
