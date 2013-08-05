@@ -13,12 +13,14 @@ object Application extends Controller {
     }
   }
 
-  def welcome = Action {
-    Ok(org.startupDirectory.pages.html.welcome())
+  def welcome = Action { request =>
+    val loggedIn = request.session.get("user.id").isDefined
+    Ok(org.startupDirectory.pages.html.welcome(loggedIn))
   }
 
-  def search = Action {
-    Ok(org.startupDirectory.pages.html.search())
+  def search = Action { request =>
+    val loggedIn = request.session.get("user.id").isDefined
+    Ok(org.startupDirectory.pages.html.search(loggedIn))
   }
 
   def login = Action { implicit request =>
