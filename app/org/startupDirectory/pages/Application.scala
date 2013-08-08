@@ -28,8 +28,7 @@ object Application extends Controller {
       session + 
         ("user.id" -> "0") +
         ("user.email" -> "michele@gmail.com") +
-        ("user.fbId" -> "833824640")
-    )
+        ("user.fbId" -> "833824640"))
   }
 
   def logout = Action { implicit request =>
@@ -41,18 +40,6 @@ object Application extends Controller {
     )
   }
 
-  // def persone = Action {
-  //   Ok(org.startupDirectory.pages.html.persone())
-  // }
-
-  // def persone = Action {
-  //   Ok(org.startupDirectory.pages.html.startup())
-  // }
-
-  // def risorse = Action {
-  //   Ok(org.startupDirectory.pages.html.risorse())
-  // }
-  
   def privacy = Action {
     Ok(org.startupDirectory.pages.html.privacy())
   }

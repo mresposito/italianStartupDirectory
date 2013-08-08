@@ -7,7 +7,7 @@ GET     /                           org.startupDirectory.pages.Application.index
 GET     /welcome                    org.startupDirectory.pages.Application.welcome
 
 GET     /esplora                    org.startupDirectory.pages.Application.search
-GET     /login                      org.startupDirectory.pages.Application.login 
+GET     /login                      org.startupDirectory.data.EntityController.fbLogin 
 GET     /logout                     org.startupDirectory.pages.Application.logout
 
 GET     /try                        org.startupDirectory.data.EntityController.get

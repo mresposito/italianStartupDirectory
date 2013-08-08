@@ -19,6 +19,8 @@ object Formatters {
 }
 
 object EntityController extends Controller {
+
+  import Formatters._
   
   val entityStore: EntityStore = new EntityStore(H2Driver);
   val database: Database = new Database {
@@ -27,10 +29,31 @@ object EntityController extends Controller {
 
   def get = Action {
     val insert = database.withSession { implicit session: Session => 
-      entityStore.insertEntity(
-        Entity(None, "b", "e", "ich")
-      )
+      // entityStore.insertEntity(
+      //   Entity(None, "b", "e", "ich")
+      // )
     }
     Ok
+  }
+
+  /**
+   * Login the person, and create a new instance in the DB
+   */
+  def fbLogin = Action { request =>
+    Ok
+    // request.body.validate[Entity].map {
+    //   case req => {
+    // database.withSession { implicit session: Session => 
+    //   val id = entityStore.getOrCreate(entity)
+    //   Ok(id).withSession(
+    //     session + 
+    //     ("user.id" -> "0") +
+    //     ("user.email" -> "michele@gmail.com") +
+    //     ("user.fbId" -> "833824640"))
+    // }
+      // }
+    // }.recoverTotal{
+    //   e => BadRequest("Detected error:"+ JsError.toFlatJson(e))
+    // }
   }
 }
