@@ -13,6 +13,7 @@ import play.api.libs.json.Json
 import scala.slick.driver.H2Driver
 import play.api.libs.json._
 import com.typesafe.scalalogging.slf4j.Logging
+import org.startupDirectory.utils.Clock
 
 object Formatters {
   implicit val entityFormatter = Json.format[Entity]
@@ -22,7 +23,7 @@ object EntityController extends Controller {
 
   import Formatters._
   
-  val entityStore: EntityStore = new EntityStore(H2Driver);
+  val entityStore: EntityStore = new EntityStore(H2Driver, new Clock);
   val database: Database = new Database {
     override def createConnection() = DB.getConnection()
   }

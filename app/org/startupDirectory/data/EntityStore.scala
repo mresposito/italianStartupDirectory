@@ -2,6 +2,7 @@ package org.startupDirectory.data
 
 import scala.slick.driver.ExtendedProfile
 import java.sql.Timestamp
+import org.startupDirectory.utils.Clock
 
 trait Profile {
   val profile: ExtendedProfile
@@ -75,7 +76,7 @@ trait EntityComponent { this: Profile =>
 /**
 * The Data Access Layer contains all components and a profile
 */
-class EntityStore(override val profile: ExtendedProfile) extends EntityComponent with LoginComponent with Profile {
+class EntityStore(override val profile: ExtendedProfile, val clock: Clock) extends EntityComponent with LoginComponent with Profile {
   import profile.simple._
 
   val allDdl = Entities.ddl ++ Logins.ddl
@@ -90,8 +91,13 @@ class EntityStore(override val profile: ExtendedProfile) extends EntityComponent
   def byEmail(email: String)(implicit session: Session) =
     Query(Entities).filter(_.email === email).firstOption
 
-  def insertEntity(entity: Entity)(implicit session: Session): Long = 
+  def insertEntity(entity: Entity)(implicit session: Session): Long = {
     Entities.autoInc.insert(entity)
+  }
+
+  // def insert(login: Login)(implicit session: Session): Long = {
+  //   val withTime = login.
+  // }
 
   def getOrCreateByEmail(entity: Entity)(implicit session: Session): Long = {
     getOrCreateByFun(entity, entity.email, byEmail)

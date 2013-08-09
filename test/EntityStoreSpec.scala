@@ -1,6 +1,7 @@
 package org.startupDirectory.data
 
 import org.specs2.mutable._
+import org.startupDirectory.utils.Clock
 import play.api.test._
 import play.api.test.Helpers._
 import scala.slick.driver.H2Driver
@@ -11,7 +12,7 @@ import play.api.Play.current
 
 class EntityStoreSpec extends Specification {
 
-  var store: EntityStore = new EntityStore(H2Driver)
+  var store: EntityStore = new EntityStore(H2Driver, new Clock)
   val baseEntity =  Entity(None, "michele", "m@e.com")
   val entityTwo =  Entity(None, "tonino", "met@e.com")
 
