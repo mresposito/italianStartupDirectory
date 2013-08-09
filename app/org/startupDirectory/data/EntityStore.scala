@@ -3,30 +3,40 @@ package org.startupDirectory.data
 import scala.slick.driver.ExtendedProfile
 import java.sql.Timestamp
 
-
-abstract class TimedEntity(login: Boolean = false, updated: Boolean = false, 
-  created: Boolean = false) {
-
-    var lastUpdated: Timestamp
-    var lastCreated: Timestamp
-    var dateJoined: Timestamp
+trait Profile {
+  val profile: ExtendedProfile
 }
 
-case class Entity(id: Option[Long], name: String, email: String)
-case class NameEmail(id: Option[Long], name: String, email: String)
+case class Login(name: String, email: String, loginType: String,
+  loginSecret: String, lastLogin: Timestamp, dateJoined: Timestamp, id: Option[Long] = None)
 
-class EntityStore (val driver: ExtendedProfile) {
+trait LoginComponent { this: Profile =>
+  import profile.simple._
 
-  import driver.simple._
+  object Logins extends Table[Login]("login") {
 
-  object NameEmails extends Table[NameEmail]("entity") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
     def name = column[String]("name")
     def email = column[String]("email")
 
-    def * = id.? ~ name ~ email <> (NameEmail, NameEmail.unapply _)
+    def loginType = column[String]("login_type")
+    def loginSecret = column[String]("login_secret")
+
+    def dateJoined = column[Timestamp]("date_joined")
+    def lastLogin = column[Timestamp]("last_login")
+
+    def * = name ~ email ~
+      loginType ~ loginSecret ~ lastLogin ~
+      dateJoined ~ id.? <> (Login, Login.unapply _)
+
     def autoInc = * returning id
   }
+}
+
+case class Entity(id: Option[Long], name: String, email: String)
+
+trait EntityComponent { this: Profile =>
+  import profile.simple._
 
   object Entities extends Table[Entity]("entity") {
 
@@ -37,7 +47,6 @@ class EntityStore (val driver: ExtendedProfile) {
 
     /* index */
     def idx = index("idx_id", id, unique=true)
-
     def workStatus = column[Int]("work_status") // -1
     def size = column[Int]("size")
     def age = column[Int]("age")
@@ -52,9 +61,8 @@ class EntityStore (val driver: ExtendedProfile) {
     def fbId = column[Option[String]]("fb_id")
     def gPlus = column[Option[String]]("g_plus_url")
 
-    def lastLogin = column[Timestamp]("last_login")
-    def lastUpdated  = column[Timestamp]("last_updated")
     def dateJoined = column[Timestamp]("date_joined")
+    def lastUpdated  = column[Timestamp]("last_updated")
 
     def contactMe = column[Int]("contact_me")
     def emailMe = column[Int]("email_me")
@@ -62,18 +70,28 @@ class EntityStore (val driver: ExtendedProfile) {
     def * = id.? ~ name ~ email <> (Entity, Entity.unapply _)
     def autoInc = * returning id
   }
+}
 
-  def create(implicit session: Session) = (Entities.ddl).create
-  def drop(implicit session: Session) = (Entities.ddl).drop
+/**
+* The Data Access Layer contains all components and a profile
+*/
+class EntityStore(override val profile: ExtendedProfile) extends EntityComponent with LoginComponent with Profile {
+  import profile.simple._
+
+  val allDdl = Entities.ddl ++ Logins.ddl
+
+  def create(implicit session: Session): Unit = {
+    (allDdl).create //helper method to create all tables
+  }
+  def drop(implicit session: Session): Unit  = {
+    (allDdl).drop
+  }
 
   def byEmail(email: String)(implicit session: Session) =
     Query(Entities).filter(_.email === email).firstOption
 
   def insertEntity(entity: Entity)(implicit session: Session): Long = 
     Entities.autoInc.insert(entity)
-
-  def insertNameEmail(entity: NameEmail)(implicit session: Session): Long = 
-    NameEmails.autoInc.insert(entity)
 
   def getOrCreateByEmail(entity: Entity)(implicit session: Session): Long = {
     getOrCreateByFun(entity, entity.email, byEmail)

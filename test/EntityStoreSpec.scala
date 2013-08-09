@@ -14,7 +14,6 @@ class EntityStoreSpec extends Specification {
   var store: EntityStore = new EntityStore(H2Driver)
   val baseEntity =  Entity(None, "michele", "m@e.com")
   val entityTwo =  Entity(None, "tonino", "met@e.com")
-  val baseName =  NameEmail(None, "tonino", "met@e.com")
 
   "Entity store" should {
 
@@ -53,23 +52,6 @@ class EntityStoreSpec extends Specification {
           val secondId = store.getOrCreateByEmail(baseEntity)
 
           id must beEqualTo(secondId)
-        }
-      }
-    }
-
-    "Insert in name, retrieve from entity" in {
-      running(FakeApplication()) {
-   
-        Database.forDataSource(DB.getDataSource()).withSession { implicit session: Session =>
-          store.insertNameEmail(baseName)
-          // retrieve the inserted
-          val ret = store.byEmail(baseEntity.email)
-          ret.isDefined must beTrue
-
-          val retrieved = ret.get
-          retrieved.email must beEqualTo(baseEntity.email)
-          retrieved.name must beEqualTo(baseEntity.name)
-          retrieved.id.isDefined must beTrue
         }
       }
     }
