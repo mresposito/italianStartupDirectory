@@ -9,7 +9,8 @@ trait Profile {
 }
 
 case class Login(name: String, email: String, loginType: String,
-  loginSecret: String, lastLogin: Timestamp, dateJoined: Timestamp, id: Option[Long] = None)
+  loginSecret: String, lastLogin: Option[Timestamp] = None,
+  created: Option[Timestamp] = None, id: Option[Long] = None)
 
 trait LoginComponent { this: Profile =>
   import profile.simple._
@@ -23,12 +24,12 @@ trait LoginComponent { this: Profile =>
     def loginType = column[String]("login_type")
     def loginSecret = column[String]("login_secret")
 
-    def dateJoined = column[Timestamp]("date_joined")
-    def lastLogin = column[Timestamp]("last_login")
+    def lastLogin = column[Option[Timestamp]]("last_login")
+    def created = column[Option[Timestamp]]("created")
 
     def * = name ~ email ~
       loginType ~ loginSecret ~ lastLogin ~
-      dateJoined ~ id.? <> (Login, Login.unapply _)
+      created ~ id.? <> (Login, Login.unapply _)
 
     def autoInc = * returning id
   }
@@ -62,7 +63,7 @@ trait EntityComponent { this: Profile =>
     def fbId = column[Option[String]]("fb_id")
     def gPlus = column[Option[String]]("g_plus_url")
 
-    def dateJoined = column[Timestamp]("date_joined")
+    def created = column[Timestamp]("created")
     def lastUpdated  = column[Timestamp]("last_updated")
 
     def contactMe = column[Int]("contact_me")
@@ -84,20 +85,49 @@ class EntityStore(override val profile: ExtendedProfile, val clock: Clock) exten
   def create(implicit session: Session): Unit = {
     (allDdl).create //helper method to create all tables
   }
-  def drop(implicit session: Session): Unit  = {
+
+  def drop(implicit session: Session): Unit = {
     (allDdl).drop
+  }
+
+  def login(log: Login)(implicit session: Session): Long = {
+    val found = loginByEmail(log.email) 
+    val now = Some(clock.now)
+    val updateLogin = log.copy(lastLogin = now)
+    if(found.isDefined) { // update login time
+      found.get.id.get
+    } else {
+      val updateCreated = updateLogin.copy(created = now)
+      insert(updateCreated)
+    }
+  }
+
+  def updateTime(login: Login)(implicit session: Session): Unit = {
+    Query(Logins).filter(_.id === login.id.get).map(_.lastLogin).update(login.lastLogin)
+  }
+
+  def find(login: Login)(implicit session: Session) = {
+    if(login.id.isDefined) {
+      Query(Logins).filter(_.id === login.id.get).firstOption
+    } else {
+      None
+    }
   }
 
   def byEmail(email: String)(implicit session: Session) =
     Query(Entities).filter(_.email === email).firstOption
+  
+  def loginByEmail(email: String)(implicit session: Session) = {
+    Query(Logins).filter(_.email === email).firstOption
+  }
 
-  def insertEntity(entity: Entity)(implicit session: Session): Long = {
+  def insert(entity: Entity)(implicit session: Session): Long = {
     Entities.autoInc.insert(entity)
   }
 
-  // def insert(login: Login)(implicit session: Session): Long = {
-  //   val withTime = login.
-  // }
+  def insert(login: Login)(implicit session: Session): Long = {
+    Logins.autoInc.insert(login)
+  }
 
   def getOrCreateByEmail(entity: Entity)(implicit session: Session): Long = {
     getOrCreateByFun(entity, entity.email, byEmail)
@@ -110,7 +140,7 @@ class EntityStore(override val profile: ExtendedProfile, val clock: Clock) exten
     if(found.isDefined) {
       found.get.id.get
     } else {
-      insertEntity(entity)
+      insert(entity)
     }
   }
 }
