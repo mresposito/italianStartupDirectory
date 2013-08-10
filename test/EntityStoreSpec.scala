@@ -44,7 +44,7 @@ class LoginStoreSpec extends MockEntityStore {
           id.toInt must beGreaterThan(0)
  
           val newOpt = baseLogin.copy(id = Some(id))
-          val retrieved = store.loginByEmail(baseLogin.email)
+          val retrieved = store.getLoginByEmail(baseLogin.email)
           retrieved.isDefined must beTrue
           retrieved.get must beEqualTo(newOpt)
         }
@@ -61,9 +61,32 @@ class LoginStoreSpec extends MockEntityStore {
           id.toInt must beGreaterThan(0)
  
           val newOpt = baseLogin.copy(id = Some(id), created = Some(timestamp), lastLogin = Some(timestamp))
-          val retrieved = store.loginByEmail(baseLogin.email)
+          val retrieved = store.getLoginByEmail(baseLogin.email)
           retrieved.isDefined must beTrue
           retrieved.get must beEqualTo(newOpt)
+        }
+      }
+    }
+
+    "should login with the right time" in {
+      running(FakeApplication()) {
+   
+        Database.forDataSource(DB.getDataSource()).withSession { implicit session: Session =>
+          val shortTimestamp = Some(new Timestamp(1))
+          when(clock.now).thenReturn(shortTimestamp.get)
+          // insert with timestamp
+          val loginWithTimestamp = baseLogin.copy(created = shortTimestamp)
+          val insertId = store.insert(loginWithTimestamp)
+          // make new login
+          when(clock.now).thenReturn(timestamp)
+          val id = store.login(baseLogin)
+          id.toInt must beGreaterThan(0)
+          // retrieve login 
+          val retrieved = store.getLoginByEmail(baseLogin.email)
+          val correctTs = loginWithTimestamp.copy(id = Some(id), lastLogin = Some(timestamp))
+          // verify its the same 
+          retrieved.isDefined must beTrue
+          retrieved.get must beEqualTo(correctTs)
         }
       }
     }

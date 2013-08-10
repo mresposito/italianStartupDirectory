@@ -91,19 +91,19 @@ class EntityStore(override val profile: ExtendedProfile, val clock: Clock) exten
   }
 
   def login(log: Login)(implicit session: Session): Long = {
-    val found = loginByEmail(log.email) 
-    val now = Some(clock.now)
-    val updateLogin = log.copy(lastLogin = now)
+    val found = getLoginByEmail(log.email) 
     if(found.isDefined) { // update login time
+      updateLoginTime(found.get)
       found.get.id.get
     } else {
-      val updateCreated = updateLogin.copy(created = now)
-      insert(updateCreated)
+      val now = Some(clock.now)
+      val updateTimestamps = log.copy(created = now, lastLogin = now)
+      insert(updateTimestamps)
     }
   }
 
-  def updateTime(login: Login)(implicit session: Session): Unit = {
-    Query(Logins).filter(_.id === login.id.get).map(_.lastLogin).update(login.lastLogin)
+  def updateLoginTime(login: Login)(implicit session: Session): Unit = {
+    Query(Logins).filter(_.id === login.id.get).map(_.lastLogin).update(Some(clock.now))
   }
 
   def find(login: Login)(implicit session: Session) = {
@@ -117,7 +117,7 @@ class EntityStore(override val profile: ExtendedProfile, val clock: Clock) exten
   def byEmail(email: String)(implicit session: Session) =
     Query(Entities).filter(_.email === email).firstOption
   
-  def loginByEmail(email: String)(implicit session: Session) = {
+  def getLoginByEmail(email: String)(implicit session: Session) = {
     Query(Logins).filter(_.email === email).firstOption
   }
 
