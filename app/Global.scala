@@ -6,7 +6,7 @@ import scala.slick.session.Session
 import play.api.Application
 import play.api.Play.current
 import org.startupDirectory.data.EntityStore
-import org.startupDirectory.utils.Clock
+import org.startupDirectory.util.Clock
  
  
 object Global extends GlobalSettings {

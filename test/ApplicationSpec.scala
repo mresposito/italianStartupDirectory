@@ -64,11 +64,11 @@ class ApplicationSpec extends Specification {
 
     "Login tests" in {
 
-      "user is able to login" in {
+      "user with no credentials should not login" in {
         running(FakeApplication()) {
           val home = route(FakeRequest(GET, "/login")).get
           
-          status(home) must equalTo(OK)
+          status(home) must equalTo(400) // TODO: change to 404
           // contentType(home) must beSome.which(_ == "text/html")
           // contentAsString(home) must contain ("Logout")
         }

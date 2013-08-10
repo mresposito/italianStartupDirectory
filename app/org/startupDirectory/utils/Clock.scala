@@ -1,4 +1,4 @@
-package org.startupDirectory.utils
+package org.startupDirectory.util
 import java.sql.Timestamp
 import java.util.Date
 

@@ -2,7 +2,7 @@ package org.startupDirectory.data
 
 import org.mockito.Mockito._
 import org.specs2.mutable._
-import org.startupDirectory.utils.Clock
+import org.startupDirectory.util.Clock
 import play.api.test._
 import play.api.test.Helpers._
 import play.api.db._

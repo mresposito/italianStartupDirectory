@@ -2,7 +2,7 @@ package org.startupDirectory.data
 
 import scala.slick.driver.ExtendedProfile
 import java.sql.Timestamp
-import org.startupDirectory.utils.Clock
+import org.startupDirectory.util.Clock
 
 trait Profile {
   val profile: ExtendedProfile
