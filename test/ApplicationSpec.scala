@@ -66,7 +66,7 @@ class ApplicationSpec extends Specification {
 
       "user with no credentials should not login" in {
         running(FakeApplication()) {
-          val home = route(FakeRequest(GET, "/login")).get
+          val home = route(FakeRequest(POST, "/fbLogin")).get
           
           status(home) must equalTo(400) // TODO: change to 404
           // contentType(home) must beSome.which(_ == "text/html")
@@ -81,7 +81,7 @@ class ApplicationSpec extends Specification {
 
       "if logged out, should stay logged out" in {
         running(FakeApplication()) {
-          val home = route(FakeRequest(GET, "/logout")).get
+          val home = route(FakeRequest(POST, "/logout")).get
           
           status(home) must equalTo(OK)
           checkLogOut(session(home))
@@ -90,7 +90,7 @@ class ApplicationSpec extends Specification {
       
       "if logged in, should be logged out" in {
         running(FakeApplication()) {
-          val home = route(FakeLoggedRequest(GET, "/logout")).get
+          val home = route(FakeLoggedRequest(POST, "/logout")).get
           
           status(home) must equalTo(OK)
           checkLogOut(session(home))

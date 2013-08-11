@@ -37,11 +37,6 @@ object EntityController extends Controller {
   }
 
   def get = Action {
-    val insert = database.withSession { implicit session: Session => 
-      // entityStore.insertEntity(
-      //   Entity(None, "b", "e", "ich")
-      // )
-    }
     Ok
   }
 
@@ -52,12 +47,10 @@ object EntityController extends Controller {
     request.body.validate[Login].map { user =>
       database.withSession { implicit session: Session => 
         val id = entityStore.login(user)
-        Ok
-        // Ok(s"${id}").withSession(
-        //   session + 
-        //   ("user.id" -> "0") +
-        //   ("user.email" -> "michele@gmail.com") +
-        //   ("user.fbId" -> "833824640"))
+        Ok("id").withSession(
+          ("user.id", "0"),
+          ("user.email", "michele@gmail.com"),
+          ("user.fbId", "833824640"))
       }
     }.recoverTotal {
       e => BadRequest("Detected error:"+ JsError.toFlatJson(e))

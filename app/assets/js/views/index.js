@@ -24,7 +24,12 @@ define ([
           user_id = response.authResponse.userID; //get FB UID
 
           FB.api('/me', function(response) {
-            self.toServer("/login", response);
+            self.toServer("/fbLogin", {
+              name: response.name,
+              email: response.email,
+              loginType: "facebook",
+              loginSecret: response.id
+            });
           });
 
         } else {
@@ -34,10 +39,10 @@ define ([
       }, {
         scope: 'email'
       });
-    },
+              },
 
     fbLogout:  function(event) {
-      var self = this;
+                 var self = this;
 
       FB.logout(function(response) {
         self.toServer("/logout", response) 
@@ -46,8 +51,11 @@ define ([
 
     toServer: function(path, data) {
       $.ajax({
+        type: "post",
         url: path,
-        data: data
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        dataType: 'json'
       }).done(function() {
         window.location.reload(true);
       });

@@ -22,7 +22,7 @@ require ([
   "jquery",
   "underscore",
   "backbone",
-  "views/indexNoConnection"
+  "views/index"
 ], function($, _, Backbone, index) {
   new index({
     el: $("#bodyWrap")
