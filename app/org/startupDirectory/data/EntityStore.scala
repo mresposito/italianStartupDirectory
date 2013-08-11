@@ -8,9 +8,13 @@ trait Profile {
   val profile: ExtendedProfile
 }
 
-case class Login(name: String, email: String, loginType: String,
-  loginSecret: String, lastLogin: Option[Timestamp] = None,
-  created: Option[Timestamp] = None, id: Option[Long] = None)
+case class Login(name: String,
+  email: String,
+  loginType: String,
+  loginSecret: String,
+  lastLogin: Option[Timestamp] = None,
+  created: Option[Timestamp] = None,
+  id: Option[Long] = None)
 
 trait LoginComponent { this: Profile =>
   import profile.simple._
@@ -77,7 +81,7 @@ trait EntityComponent { this: Profile =>
 /**
 * The Data Access Layer contains all components and a profile
 */
-class EntityStore(override val profile: ExtendedProfile, val clock: Clock) extends EntityComponent with LoginComponent with Profile {
+class DAL(override val profile: ExtendedProfile, val clock: Clock) extends EntityComponent with LoginComponent with Profile {
   import profile.simple._
 
   val allDdl = Entities.ddl ++ Logins.ddl

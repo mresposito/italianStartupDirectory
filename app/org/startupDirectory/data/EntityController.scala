@@ -29,7 +29,7 @@ object EntityController extends Controller {
 
   import StoreFormatters._
   
-  val entityStore: EntityStore = new EntityStore(H2Driver, new Clock);
+  val entityStore: DAL = new DAL(H2Driver, new Clock);
   val database: Database = new Database {
     override def createConnection() = DB.getConnection()
   }
