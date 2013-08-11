@@ -18,9 +18,7 @@ import org.startupDirectory.util.Clock
 import org.startupDirectory.util.TimestampFormatter
 import java.util.Date
 
-case class Etn(oasth: Date)
-
-object Formatters {
+object StoreFormatters {
   import TimestampFormatter._
 
   implicit val entityFormatter = Json.format[Entity]
@@ -29,7 +27,7 @@ object Formatters {
 
 object EntityController extends Controller {
 
-  import Formatters._
+  import StoreFormatters._
   
   val entityStore: EntityStore = new EntityStore(H2Driver, new Clock);
   val database: Database = new Database {
@@ -47,10 +45,11 @@ object EntityController extends Controller {
     request.body.validate[Login].map { user =>
       database.withSession { implicit session: Session => 
         val id = entityStore.login(user)
-        Ok("id").withSession(
-          ("user.id", "0"),
-          ("user.email", "michele@gmail.com"),
-          ("user.fbId", "833824640"))
+        val userWithId = user.copy(id = Some(id))
+        Ok(Json.toJson(userWithId)).withSession(
+          ("user.id", s"${id}"),
+          ("user.email", user.email),
+          ("user.loginSecret", user.loginSecret))
       }
     }.recoverTotal {
       e => BadRequest("Detected error:"+ JsError.toFlatJson(e))

@@ -23,20 +23,12 @@ object Application extends Controller {
     Ok(org.startupDirectory.pages.html.search(loggedIn))
   }
 
-  def login = Action { implicit request =>
-    Ok.withSession(
-      session + 
-        ("user.id" -> "0") +
-        ("user.email" -> "michele@gmail.com") +
-        ("user.fbId" -> "833824640"))
-  }
-
   def logout = Action { implicit request =>
     Ok.withSession(
       session - 
         "user.id" - 
         "user.email" -
-        "user.fbId"
+        "user.loginSecret"
     )
   }
 
