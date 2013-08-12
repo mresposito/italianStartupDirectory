@@ -2,8 +2,10 @@ package org.startupDirectory.pages
 
 import play.api._
 import play.api.mvc._
+import javax.inject.Singleton
 
-object Application extends Controller {
+@Singleton
+class Application extends Controller {
   
   def index = Action { request =>
     request.session.get("user.id").map { id =>

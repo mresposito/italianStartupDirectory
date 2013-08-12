@@ -3,19 +3,15 @@
 # ~~~~
 
 # pages
-GET     /                           org.startupDirectory.pages.Application.index
-GET     /welcome                    org.startupDirectory.pages.Application.welcome
+GET     /                           @org.startupDirectory.pages.Application.index
+GET     /welcome                    @org.startupDirectory.pages.Application.welcome
 
-GET     /esplora                    org.startupDirectory.pages.Application.search
-POST    /fbLogin                    org.startupDirectory.data.EntityController.fbLogin 
-POST    /logout                     org.startupDirectory.pages.Application.logout
+GET     /esplora                    @org.startupDirectory.pages.Application.search
+POST    /fbLogin                    @org.startupDirectory.data.EntityController.fbLogin 
+POST    /logout                     @org.startupDirectory.pages.Application.logout
 
-# GET     /persone                    org.startupDirectory.pages.Application.persone 
-# GET     /startup                    org.startupDirectory.pages.Application.startup
-# GET     /risorse                    org.startupDirectory.pages.Application.risorse 
-
-GET     /about                      org.startupDirectory.pages.Application.about  
-GET     /privacy                    org.startupDirectory.pages.Application.privacy
+GET     /about                      @org.startupDirectory.pages.Application.about  
+GET     /privacy                    @org.startupDirectory.pages.Application.privacy
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

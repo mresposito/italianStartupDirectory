@@ -2,13 +2,9 @@ package org.startupDirectory.data
 
 import play.api._
 import play.api.mvc._
-import play.api.db._
-import play.api.Play.current
-// import play.api.db.
-// import javax.inject.Singleton
-// import javax.inject.Inject
+import javax.inject.Singleton
+import javax.inject.Inject
 import java.sql.Timestamp
-import scala.slick.driver.H2Driver
 import scala.slick.session.Session
 import scala.slick.session.Database
 import play.api.libs.json.Json
@@ -25,14 +21,11 @@ object StoreFormatters {
   implicit val loginFormatter = Json.format[Login]
 }
 
-object EntityController extends Controller {
+@Singleton
+class EntityController @Inject()(entityStore: DAL, databaseConn: DatabaseConnection) extends Controller {
 
   import StoreFormatters._
-  
-  val entityStore: DAL = new DAL(H2Driver, new Clock);
-  val database: Database = new Database {
-    override def createConnection() = DB.getConnection()
-  }
+  import databaseConn.database
 
   def get = Action {
     Ok

@@ -13,7 +13,9 @@ object ApplicationBuild extends Build {
     anorm,
     "org.mockito" % "mockito-all" % "1.9.5" % "test",
     "com.typesafe" %% "scalalogging-slf4j" % "1.0.1",
-    "com.typesafe.slick" %% "slick" % "1.0.1"
+    "com.typesafe.slick" %% "slick" % "1.0.1",
+    "com.google.inject" % "guice" % "3.0",
+    "com.tzavellas" % "sse-guice" % "0.7.1"
   )
 
 

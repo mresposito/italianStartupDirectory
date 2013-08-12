@@ -15,7 +15,7 @@ import java.sql.Timestamp
 abstract class  MockEntityStore extends Specification {
 
   val clock = mock(classOf[Clock])
-  val store: DAL = new DAL(H2Driver, clock)
+  val store: DAL = new DAL(new H2Profile, clock)
   val baseEntity = Entity(None, "michele", "m@e.com")
   val entityTwo = Entity(None, "tonino", "met@e.com")
 

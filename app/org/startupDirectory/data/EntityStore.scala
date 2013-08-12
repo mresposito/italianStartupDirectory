@@ -2,10 +2,17 @@ package org.startupDirectory.data
 
 import scala.slick.driver.ExtendedProfile
 import java.sql.Timestamp
+import javax.inject.Singleton
+import javax.inject.Inject
 import org.startupDirectory.util.Clock
+import scala.slick.driver.H2Driver
 
 trait Profile {
   val profile: ExtendedProfile
+}
+
+class H2Profile extends Profile {
+  val profile = H2Driver
 }
 
 case class Login(name: String,
@@ -81,7 +88,9 @@ trait EntityComponent { this: Profile =>
 /**
 * The Data Access Layer contains all components and a profile
 */
-class DAL(override val profile: ExtendedProfile, val clock: Clock) extends EntityComponent with LoginComponent with Profile {
+@Singleton
+class DAL @Inject() (val profileCake: Profile, val clock: Clock) extends EntityComponent with LoginComponent with Profile {
+  override val profile = profileCake.profile
   import profile.simple._
 
   val allDdl = Entities.ddl ++ Logins.ddl
