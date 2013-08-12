@@ -12,6 +12,7 @@ import play.api.libs.json._
 import com.typesafe.scalalogging.slf4j.Logging
 import org.startupDirectory.util.Clock
 import org.startupDirectory.util.TimestampFormatter
+import org.startupDirectory.common.SessionManaged
 import java.util.Date
 
 object StoreFormatters {
@@ -22,7 +23,7 @@ object StoreFormatters {
 }
 
 @Singleton
-class EntityController @Inject()(entityStore: DAL, databaseConn: DatabaseConnection) extends Controller {
+class EntityController @Inject()(entityStore: DAL, databaseConn: DatabaseConnection, sessionManager: SessionManaged) extends Controller {
 
   import StoreFormatters._
   import databaseConn.database
@@ -37,12 +38,11 @@ class EntityController @Inject()(entityStore: DAL, databaseConn: DatabaseConnect
   def fbLogin = Action(parse.json) { request =>
     request.body.validate[Login].map { user =>
       database.withSession { implicit session: Session => 
+
         val id = entityStore.login(user)
         val userWithId = user.copy(id = Some(id))
-        Ok(Json.toJson(userWithId)).withSession(
-          ("user.id", s"${id}"),
-          ("user.email", user.email),
-          ("user.loginSecret", user.loginSecret))
+        val response = Ok(Json.toJson(userWithId))
+        sessionManager.addSession(response, userWithId)(request)
       }
     }.recoverTotal {
       e => BadRequest("Detected error:"+ JsError.toFlatJson(e))

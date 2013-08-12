@@ -3,9 +3,12 @@ package org.startupDirectory.pages
 import play.api._
 import play.api.mvc._
 import javax.inject.Singleton
+import javax.inject.Inject
+import org.startupDirectory.data.Login
+import org.startupDirectory.common.SessionManaged
 
 @Singleton
-class Application extends Controller {
+class Application @Inject()(sessionManager: SessionManaged) extends Controller {
   
   def index = Action { request =>
     request.session.get("user.id").map { id =>
@@ -26,12 +29,7 @@ class Application extends Controller {
   }
 
   def logout = Action { implicit request =>
-    Ok.withSession(
-      session - 
-        "user.id" - 
-        "user.email" -
-        "user.loginSecret"
-    )
+    sessionManager.removeSession(Ok)
   }
 
   def privacy = Action {

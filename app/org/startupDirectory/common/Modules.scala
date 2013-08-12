@@ -12,11 +12,7 @@ trait CommodModule extends ScalaModule {
   def stardantConf = {
     bind[DatabaseConnection].to[PlayH2DBConnection]
     bind[Profile].to[H2Profile]
-  
-  // val entityStore: DAL = new DAL(H2Driver, new Clock);
-  // val database: Database = new Database {
-  //   override def createConnection() = DB.getConnection()
-  // }
+    bind[SessionManaged].to[SessionManager]
   }
 }
  
