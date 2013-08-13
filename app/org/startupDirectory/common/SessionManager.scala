@@ -4,7 +4,6 @@ import play.api._
 import play.api.mvc._
 import org.startupDirectory.data.Login
 
-
 trait SessionManaged {
 
   val userId = "user.id"

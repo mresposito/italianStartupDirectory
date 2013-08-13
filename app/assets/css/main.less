@@ -1,5 +1,6 @@
 @import "search.less";
 @import "welcome.less";
+@import "create.less";
 
 /**
  * Font faces
@@ -140,16 +141,18 @@ body {
   height: auto !important;
   height: 100%;
   /* Negative indent footer by it's height */
-  margin: 0 auto -60px;
+  margin: 0 auto;
 }
 
 /* Set the fixed height of the footer here */
 #push, #footer {
   border-top: 1px solid #e0e0e0;
-  height: 80px;
+  height: 60px;
 }
 
 #footer {
+  display: block;
+  position: relative;
   background-color: rgba(2, 2, 2, 0.85);
   color: rgb(219, 219, 219);
 }
@@ -161,5 +164,10 @@ body {
     margin-right: -20px;
     padding-left: 20px;
     padding-right: 20px;
+    height: auto;
   }
+}
+
+#bodyWrap {
+  .blueSavoy(15%)
 }

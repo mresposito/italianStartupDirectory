@@ -39,4 +39,12 @@ class Application @Inject()(sessionManager: SessionManaged) extends Controller {
   def about = Action {
     Ok(org.startupDirectory.pages.html.about())
   }
+
+  /**
+   * TODO: Must be authenticated
+   */
+  def createEntity = Action { request =>
+    val loggedIn = request.session.get("user.id").isDefined
+    Ok(org.startupDirectory.pages.html.create())
+  }
 }

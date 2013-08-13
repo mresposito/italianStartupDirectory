@@ -18,7 +18,6 @@ object ApplicationBuild extends Build {
     "com.tzavellas" % "sse-guice" % "0.7.1"
   )
 
-
   val main = play.Project(appName, appVersion, appDependencies).settings(
     // Add your own project settings here      
   )

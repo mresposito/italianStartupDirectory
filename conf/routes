@@ -6,6 +6,7 @@
 GET     /                           @org.startupDirectory.pages.Application.index
 GET     /welcome                    @org.startupDirectory.pages.Application.welcome
 
+GET     /crea                       @org.startupDirectory.pages.Application.createEntity
 GET     /esplora                    @org.startupDirectory.pages.Application.search
 POST    /fbLogin                    @org.startupDirectory.data.EntityController.fbLogin 
 POST    /logout                     @org.startupDirectory.pages.Application.logout

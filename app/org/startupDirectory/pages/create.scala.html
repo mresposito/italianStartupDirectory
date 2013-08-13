@@ -1,0 +1,55 @@
+@js = {
+  @helper.requireJs(core = routes.Assets.at("js/require.js").url, module = routes.Assets.at("createApp").url)
+}
+
+@makeImage(path: String) = {
+  <span class="imageRoundWrapper">
+    <img class="img-circle face" src="@path"/>
+  </span>
+}
+
+@switch(image: String, name: String) = {
+  <div class="span4">
+    <a class="clickable">
+      @makeImage(image)
+    </a>
+    <div class="btnContainer">
+      <button class="btnBlue">
+        <h3 class="text-center">@name</h3>
+      </button>
+    </div>
+  </div>
+}
+
+@main("Crea | Italian Startup Directory", js, login=true) {
+
+<!-- Main Div ================================================= -->
+<div class="create">
+  <div class="container"><h1>Crea un nuova entrata</h1></div>
+  <div class="createContainer container">
+    <div class="CreateHeader">
+      <h2 class="text-center">Chi aggiungere alla directory?</h2>
+    </div>
+    <div class="createBody row">
+      @switch("/assets/img/quarto.jpg", "Persona")
+      @switch("/assets/img/start.jpg", "Startup")
+      @switch("/assets/img/coin.jpg", "Investitore")
+    </div>
+    <div class="createControllers row hide">
+        <div class="span4"></div>
+        <div class="span2">
+          <button class="btn btnControl"> 
+            Previous
+          </button>
+        </div>
+        <div class="span2">
+          <button class="btn btnControl"> 
+            Next
+          </button>
+        </div>
+        <div class="span4"></div>
+      <div class="createAir"></div>
+    </div>
+  </div>
+</div> <!-- end indexImg -->
+}

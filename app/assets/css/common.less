@@ -1,0 +1,41 @@
+.blueSavoy(@desat: 0%) {
+
+  background-color: desaturate(#1263A2, @desat);
+  background-image: linear-gradient(to bottom, desaturate(rgba(18, 99, 162, 1), @desat), desaturate(#08497C, @desat));
+  background-repeat: repeat-x;
+}
+
+@grey: #cccccc;
+
+.greyInput {
+  color: @grey;
+}
+
+.borderRadius {
+  border-radius: 2px;
+}
+
+.btnSquare {
+  .borderRadius
+}
+
+@golden: #f6d654;
+
+.btnGolder {
+  background: @golden!important;
+  font-size: 18px!important;
+  color: #473939!important;
+  // border-color: black;
+}
+
+.createBtn(@color, @desat, @size) {
+
+  background: @color!important;
+  background-image: linear-gradient(to bottom, @color, desaturate(@color, @desat))!important;
+  background-repeat: repeat-x;
+  font-size: @size!important;
+  border-radius: 2px!important;
+   &:hover {
+      background-image: none !important;
+   }
+}

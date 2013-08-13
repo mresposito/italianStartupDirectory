@@ -8,7 +8,19 @@ case class Login(name: String,
   loginSecret: String,
   lastLogin: Option[Timestamp] = None,
   created: Option[Timestamp] = None,
-  id: Option[Long] = None)
+  id: Option[Long] = None) {
+  /**
+   * a new user is defined if 
+   * it has just been created
+   */
+  def newUser: Boolean = {
+    if(lastLogin.isDefined && created.isDefined) {
+      lastLogin.get == created.get
+    } else {
+      false
+    }
+  }
+}
 
 trait LoginComponent { this: Profile =>
   import profile.simple._
