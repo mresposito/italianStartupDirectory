@@ -1,0 +1,23 @@
+@(title: String)(content: Html)
+
+<div class="CreateHeader">
+  <h2 class="text-center">@title</h2>
+</div>
+<div class="createBody">
+  @content
+</div>
+<div class="createControllers row hide">
+    <div class="span4"></div>
+    <div class="span2">
+      <button class="btn btnControl" data-control="indietro"> 
+        Indietro
+      </button>
+    </div>
+    <div class="span2">
+      <button class="btn btnControl" data-control="avanti"> 
+        Avanti
+      </button>
+    </div>
+    <div class="span4"></div>
+  <div class="createAir"></div>
+</div> <!-- end createControllers -->

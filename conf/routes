@@ -14,5 +14,8 @@ POST    /logout                     @org.startupDirectory.pages.Application.logo
 GET     /about                      @org.startupDirectory.pages.Application.about  
 GET     /privacy                    @org.startupDirectory.pages.Application.privacy
 
+GET     /crea/:name                 @org.startupDirectory.pages.Application.createTemplates(name)
+
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

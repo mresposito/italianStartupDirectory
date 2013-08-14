@@ -1,0 +1,39 @@
+@js = {
+}
+
+@makeImage(path: String) = {
+  <span class="imageRoundWrapper">
+    <img class="img-circle face" src="@path"/>
+  </span>
+}
+
+@switch(image: String, name: String) = {
+  <div class="span4">
+    <a class="clickable">
+      @makeImage(image)
+    </a>
+    <div class="btnContainer">
+      <button class="btnBlue btnStep1Controller" data-step="@name">
+        <h3 class="text-center">@name</h3>
+      </button>
+    </div>
+  </div>
+}
+
+@org.startupDirectory.pages.html.main("Crea | Italian Startup Directory", js, login=true) {
+
+<div class="create">
+  <div class="container">
+    <h1>Crea una nuova entrata</h1>
+  </div>
+  <div class="createContainer container">
+    @_createBody("Chi aggiungere alla directory?") {
+      <div class="row">
+        @switch("/assets/img/quarto.jpg", "Persona")
+        @switch("/assets/img/start.jpg", "Startup")
+        @switch("/assets/img/coin.jpg", "Investitore")
+      </div>
+    } 
+  </div><!-- end createContainer -->
+</div><!-- end create -->
+}

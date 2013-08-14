@@ -1,0 +1,30 @@
+@wrapInDiv(attr: String)(form: Html) = {
+  <div class="row">
+    <div class="span1">
+      @attr:
+    </div>
+    <div class="span3">
+      @form
+    </div>
+  </div>
+}
+
+@inputForm(name: String, placeholder: String) = {
+  @wrapInDiv(name) {
+    <input type="text" data-name="@name.toLowerCase" placeholder="@placeholder">
+  }
+}
+
+@_createBody("Dicci qualcosa su di te") {
+
+    @inputForm("Name", "Mario Rossi")
+    @inputForm("Email", "mario@rossi.com")
+    @inputForm("Webpage", "www.mariorossi.it")
+    @wrapInDiv("Descrizione") {
+      <textarea data-name="description" rows="3" placeholder="Cosa ti piace fare?"></textarea>
+    }
+    @wrapInDiv("Lavoro") {
+    <input type="text" style="margin: 0 auto;" data-provide="typeahead" data-items="4" data-source="['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Dakota','North Carolina','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming']">
+      <!-- <input type="text" data&#45;provide="typeahead" placeholder="Designer" data&#45;items="4" data&#45;source=""> -->
+    }
+}

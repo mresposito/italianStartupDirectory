@@ -45,6 +45,14 @@ class Application @Inject()(sessionManager: SessionManaged) extends Controller {
    */
   def createEntity = Action { request =>
     val loggedIn = request.session.get("user.id").isDefined
-    Ok(org.startupDirectory.pages.html.create())
+    Ok(org.startupDirectory.pages.create.html.index())
+  }
+
+  def createTemplates(name: String) = Action { request =>
+    if(name == "persona") {
+      Ok(org.startupDirectory.pages.create.html.persona())
+    } else {
+      Ok
+    }
   }
 }
