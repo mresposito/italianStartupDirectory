@@ -12,18 +12,20 @@ define ([
 
     events: {
       "click .btnStep1Controller": "goToStep2",
-      "click .btnControl" : "avantiIndietro"
+      "click .btnControl" : "submit"
     },
 
     initialize: function() {
-      this.local = true;
-      this.step1Template = this.body().clone()
-    
       var step2 = this.getParameterByName("type")
 
-      if(step2 == null) {
-        this.step = 1
-      } else {
+      // var textForm = $(this.el).find(".placeInput")
+      // var options = {
+      //   types: ['(cities)'],
+      //   componentRestrictions: {country: 'fr'}
+      // }
+      // var autocomplete = new google.maps.places.Autocomplete(textForm, options)
+
+      if(step2 !== null) {
         this.loadStep2(step2)
       }
     },
@@ -32,33 +34,9 @@ define ([
       return $(this.el).find(".createBody")
     },
 
-    avantiIndietro: function(event) {
-      var av = $(event.target).data().control
-      if(av === "indietro") {
-        this.indietro()
-      } else {
-        this.avanti()
-      }
-    },
+    submit: function(event) {
 
-    indietro: function() {
-
-      // we are going back to the first step
-      this.step = 1
-      this.step2Template = this.body().clone()
-      this.setUrl("/crea")
-      this.body().html(this.step1Template)
-    }, 
-
-    avanti: function () {
-
-      if(this.step == 2) {
-        this.sendForm()
-      } else {
-        this.step = 2
-        this.setUrlWithParam(this.step2Name)
-        this.body().html(this.step2Template)
-      }
+      console.log("submit")
     },
 
     getParameterByName: function(name) {
@@ -78,13 +56,7 @@ define ([
       /* update url with new state */
       this.setUrlWithParam(step)
       // upload new template
-      if(this.step2Template && this.step2Name == step) {
-        // means we have pressed the same  button
-        // as before, so just load it again.
-        this.body().html(this.step2Template)
-      } else {
-        this.loadStep2(step)
-      }
+      this.loadStep2(step)
     },
 
     setUrlWithParam: function(param) {
@@ -98,11 +70,7 @@ define ([
     },
     
     loadStep2: function(type) {
-      // set local state parameters
-      this.step2Name = type
-      this.step = 2
-      
-      var Template = null
+
       if(type === "persona") {
         Template = PersonaTemplate
       } else if (type === "startup") {

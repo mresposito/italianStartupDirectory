@@ -1,4 +1,12 @@
 @js = {
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true&language=it"></script>
+<script type="text/javascript">
+   function initialize() {
+      var input = document.getElementById("placeInput");
+      var autocomplete = new google.maps.places.Autocomplete(input);
+   }
+   google.maps.event.addDomListener(window, 'load', initialize);
+</script>
 }
 
 @makeImage(path: String) = {
