@@ -2,7 +2,7 @@ package org.startupDirectory.data
 
 import java.sql.Timestamp
 
-case class Login(name: String,
+case class User(name: String,
   email: String,
   loginType: String,
   loginSecret: String,
@@ -22,10 +22,10 @@ case class Login(name: String,
   }
 }
 
-trait LoginComponent { this: Profile =>
+trait UserComponent { this: SlickProfile =>
   import profile.simple._
 
-  object Logins extends Table[Login]("login") {
+  object Users extends Table[User]("user") {
 
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
     def name = column[String]("name")
@@ -39,7 +39,7 @@ trait LoginComponent { this: Profile =>
 
     def * = name ~ email ~
       loginType ~ loginSecret ~ lastLogin ~
-      created ~ id.? <> (Login, Login.unapply _)
+      created ~ id.? <> (User, User.unapply _)
 
     def autoInc = * returning id
   }

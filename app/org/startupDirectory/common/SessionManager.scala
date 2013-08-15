@@ -2,7 +2,7 @@ package org.startupDirectory.common
 
 import play.api._
 import play.api.mvc._
-import org.startupDirectory.data.Login
+import org.startupDirectory.data.User
 
 trait SessionManaged {
 
@@ -10,13 +10,13 @@ trait SessionManaged {
   val userEmail = "user.email"
   val userLoginSecret = "user.loginSecret"
 
-  def addSession[A](result: Result, user: Login)(implicit request: Request[A]): Result
+  def addSession[A](result: Result, user: User)(implicit request: Request[A]): Result
   def removeSession[A](result: Result)(implicit request: Request[A]): Result
 }
 
 class SessionManager extends SessionManaged {
   
-  def addSession[A](result: Result, user: Login)(implicit request: Request[A]): Result = {
+  def addSession[A](result: Result, user: User)(implicit request: Request[A]): Result = {
     result.withSession(
       request.session +
         (userId, s"${user.id.get}") +
@@ -35,6 +35,6 @@ class SessionManager extends SessionManaged {
 
 class MockSessionManager extends SessionManaged {
   
-  def addSession[A](result: Result, user: Login)(implicit request: Request[A]): Result = result
+  def addSession[A](result: Result, user: User)(implicit request: Request[A]): Result = result
   def removeSession[A](result: Result)(implicit request: Request[A]): Result = result
 }

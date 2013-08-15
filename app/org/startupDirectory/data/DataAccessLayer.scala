@@ -6,11 +6,11 @@ import javax.inject.Inject
 import org.startupDirectory.util.Clock
 import scala.slick.driver.ExtendedProfile
 
-trait Profile {
+trait SlickProfile {
   val profile: ExtendedProfile
 }
 
-class H2Profile extends Profile {
+class H2Profile extends SlickProfile {
   val profile = H2Driver
 }
 
@@ -18,11 +18,11 @@ class H2Profile extends Profile {
 * The Data Access Layer contains all components and a profile
 */
 @Singleton
-class DAL @Inject() (val profileCake: Profile, val clock: Clock) extends EntityComponent with LoginComponent with Profile {
+class DAL @Inject() (val profileCake: SlickProfile, val clock: Clock) extends ProfileComponent with UserComponent with SlickProfile {
   override val profile = profileCake.profile
   import profile.simple._
 
-  val allDdl = Entities.ddl ++ Logins.ddl
+  val allDdl = Profiles.ddl ++ Users.ddl
 
   def create(implicit session: Session): Unit = {
     (allDdl).create //helper method to create all tables
@@ -32,57 +32,57 @@ class DAL @Inject() (val profileCake: Profile, val clock: Clock) extends EntityC
     (allDdl).drop
   }
 
-  def login(log: Login)(implicit session: Session): Long = {
-    val found = getLoginByEmail(log.email) 
+  def login(user: User)(implicit session: Session): Long = {
+    val found = getUserByEmail(user.email) 
     if(found.isDefined) { // update login time
       updateLoginTime(found.get)
       found.get.id.get
     } else {
       val now = Some(clock.now)
-      val updateTimestamps = log.copy(created = now, lastLogin = now)
+      val updateTimestamps = user.copy(created = now, lastLogin = now)
       insert(updateTimestamps)
     }
   }
 
-  def updateLoginTime(login: Login)(implicit session: Session): Unit = {
-    Query(Logins).filter(_.id === login.id.get).map(_.lastLogin).update(Some(clock.now))
+  def updateLoginTime(user: User)(implicit session: Session): Unit = {
+    Query(Users).filter(_.id === user.id.get).map(_.lastLogin).update(Some(clock.now))
   }
 
-  def find(login: Login)(implicit session: Session) = {
-    if(login.id.isDefined) {
-      Query(Logins).filter(_.id === login.id.get).firstOption
+  def find(user: User)(implicit session: Session) = {
+    if(user.id.isDefined) {
+      Query(Users).filter(_.id === user.id.get).firstOption
     } else {
       None
     }
   }
 
   def byEmail(email: String)(implicit session: Session) =
-    Query(Entities).filter(_.email === email).firstOption
+    Query(Profiles).filter(_.email === email).firstOption
   
-  def getLoginByEmail(email: String)(implicit session: Session) = {
-    Query(Logins).filter(_.email === email).firstOption
+  def getUserByEmail(email: String)(implicit session: Session) = {
+    Query(Users).filter(_.email === email).firstOption
   }
 
-  def insert(entity: Entity)(implicit session: Session): Long = {
-    Entities.autoInc.insert(entity)
+  def insert(profile: Profile)(implicit session: Session): Long = {
+    Profiles.autoInc.insert(profile)
   }
 
-  def insert(login: Login)(implicit session: Session): Long = {
-    Logins.autoInc.insert(login)
+  def insert(user: User)(implicit session: Session): Long = {
+    Users.autoInc.insert(user)
   }
 
-  def getOrCreateByEmail(entity: Entity)(implicit session: Session): Long = {
-    getOrCreateByFun(entity, entity.email, byEmail)
+  def getOrCreateByEmail(profile: Profile)(implicit session: Session): Long = {
+    getOrCreateByFun(profile, profile.email, byEmail)
   }
 
-  def getOrCreateByFun(entity: Entity, property:String, find: String => Option[Entity])
+  def getOrCreateByFun(profile: Profile, property:String, find: String => Option[Profile])
     (implicit session:Session): Long = {
 
     val found = find(property)
     if(found.isDefined) {
       found.get.id.get
     } else {
-      insert(entity)
+      insert(profile)
     }
   }
 }

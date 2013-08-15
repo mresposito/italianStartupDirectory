@@ -4,7 +4,6 @@ import play.api._
 import play.api.mvc._
 import javax.inject.Singleton
 import javax.inject.Inject
-import org.startupDirectory.data.Login
 import org.startupDirectory.common.SessionManaged
 
 @Singleton

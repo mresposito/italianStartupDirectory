@@ -11,28 +11,28 @@ import scala.slick.session.Session
 import scala.slick.session.Database
 import java.sql.Timestamp
 
-class LoginStoreSpec extends MockDAL {
-  "Login store" should {
+class UserStoreSpec extends MockDAL {
+  "User store" should {
 
-    "insert new login" in {
+    "insert new user" in {
       running(FakeApplication()) {
    
         Database.forDataSource(DB.getDataSource()).withSession { implicit session: Session =>
-          val ret = store.insert(baseLogin)
+          val ret = store.insert(baseUser)
           ret.toInt must beGreaterThan(0)
         }
       }
     }
 
-    "insert and retrieve new login" in {
+    "insert and retrieve new user" in {
       running(FakeApplication()) {
    
         Database.forDataSource(DB.getDataSource()).withSession { implicit session: Session =>
-          val id = store.insert(baseLogin)
+          val id = store.insert(baseUser)
           id.toInt must beGreaterThan(0)
  
-          val newOpt = baseLogin.copy(id = Some(id))
-          val retrieved = store.getLoginByEmail(baseLogin.email)
+          val newOpt = baseUser.copy(id = Some(id))
+          val retrieved = store.getUserByEmail(baseUser.email)
           retrieved.isDefined must beTrue
           retrieved.get must beEqualTo(newOpt)
         }
@@ -45,11 +45,11 @@ class LoginStoreSpec extends MockDAL {
         Database.forDataSource(DB.getDataSource()).withSession { implicit session: Session =>
 
           when(clock.now).thenReturn(timestamp)
-          val id = store.login(baseLogin)
+          val id = store.login(baseUser)
           id.toInt must beGreaterThan(0)
  
-          val newOpt = baseLogin.copy(id = Some(id), created = Some(timestamp), lastLogin = Some(timestamp))
-          val retrieved = store.getLoginByEmail(baseLogin.email)
+          val newOpt = baseUser.copy(id = Some(id), created = Some(timestamp), lastLogin = Some(timestamp))
+          val retrieved = store.getUserByEmail(baseUser.email)
           retrieved.isDefined must beTrue
           retrieved.get must beEqualTo(newOpt)
         }
@@ -63,15 +63,15 @@ class LoginStoreSpec extends MockDAL {
           val shortTimestamp = Some(new Timestamp(1))
           when(clock.now).thenReturn(shortTimestamp.get)
           // insert with timestamp
-          val loginWithTimestamp = baseLogin.copy(created = shortTimestamp)
-          val insertId = store.insert(loginWithTimestamp)
+          val userWithTimestamp = baseUser.copy(created = shortTimestamp)
+          val insertId = store.insert(userWithTimestamp)
           // make new login
           when(clock.now).thenReturn(timestamp)
-          val id = store.login(baseLogin)
+          val id = store.login(baseUser)
           id.toInt must beGreaterThan(0)
           // retrieve login 
-          val retrieved = store.getLoginByEmail(baseLogin.email)
-          val correctTs = loginWithTimestamp.copy(id = Some(id), lastLogin = Some(timestamp))
+          val retrieved = store.getUserByEmail(baseUser.email)
+          val correctTs = userWithTimestamp.copy(id = Some(id), lastLogin = Some(timestamp))
           // verify its the same 
           retrieved.isDefined must beTrue
           retrieved.get must beEqualTo(correctTs)

@@ -15,21 +15,21 @@ abstract class MockDAL extends Specification {
 
   val clock = mock(classOf[Clock])
   val store: DAL = new DAL(new H2Profile, clock)
-  val baseEntity = Entity(None, "michele", "m@e.com")
-  val entityTwo = Entity(None, "tonino", "met@e.com")
+  val baseProfile = Profile(None, "michele", "m@e.com")
+  val entityTwo = Profile(None, "tonino", "met@e.com")
 
-  val baseLogin = Login("michele", "m@e.com", "facebook", "881133")
+  val baseUser = User("michele", "m@e.com", "facebook", "881133")
   val timestamp = new Timestamp(500)
 }
 
-class EntityStoreSpec extends MockDAL {
-  "Entity store" should {
+class ProfileStoreSpec extends MockDAL {
+  "Profile store" should {
 
     "insert new entity" in {
       running(FakeApplication()) {
    
         Database.forDataSource(DB.getDataSource()).withSession { implicit session: Session =>
-          val id = store.insert(baseEntity)
+          val id = store.insert(baseProfile)
           id.toInt must beGreaterThan(0)
         }
       }
@@ -39,12 +39,12 @@ class EntityStoreSpec extends MockDAL {
       running(FakeApplication()) {
    
         Database.forDataSource(DB.getDataSource()).withSession { implicit session: Session =>
-          val id = store.insert(baseEntity)
+          val id = store.insert(baseProfile)
           // retrieve the inserted
-          val ret = store.byEmail(baseEntity.email)
+          val ret = store.byEmail(baseProfile.email)
           ret.isDefined must beTrue
 
-          val correctId = baseEntity.copy(id = Some(id))
+          val correctId = baseProfile.copy(id = Some(id))
           correctId must beEqualTo(ret.get)
         }
       }
@@ -54,8 +54,8 @@ class EntityStoreSpec extends MockDAL {
       running(FakeApplication()) {
    
         Database.forDataSource(DB.getDataSource()).withSession { implicit session: Session =>
-          val id = store.getOrCreateByEmail(baseEntity)
-          val secondId = store.getOrCreateByEmail(baseEntity)
+          val id = store.getOrCreateByEmail(baseProfile)
+          val secondId = store.getOrCreateByEmail(baseProfile)
 
           id must beEqualTo(secondId)
         }

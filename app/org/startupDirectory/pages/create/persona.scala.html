@@ -16,36 +16,37 @@
   </div>
 }
 
-@inputForm(name: String, placeholder: String, validate: String = "text") = {
+@inputForm(name: String, key:String, placeholder: String,
+  validate: String = "text", attr: Html = Html("")) = {
   @wrapInDiv(name) {
-    <input type="@validate" data-name="@name.toLowerCase" placeholder="@placeholder">
+    <input type="@validate" data-name="@key" placeholder="@placeholder" @attr>
   }
 }
 
 @_createBody("Dicci qualcosa su di te") {
 
-  @inputForm("Name", "Mario Rossi") 
-  @inputForm("Email", "mario@rossi.com", "email")
-  @inputForm("Webpage", "www.mariorossi.it", "url")
+  @inputForm("Nome", "name", "Mario Rossi", "text", Html("required"))
+  @inputForm("Email", "email", "mario@rossi.com", "email")
+  @inputForm("Webpage", "webPage", "www.mariorossi.it", "url")
   @wrapInDiv("Descrizione") {
     <textarea data-name="description" rows="3" placeholder="Cosa ti piace fare?"></textarea>
   }
   @wrapInDiv("Lavoro") {
-    <input type="text" data-provide="typeahead" placeholder="Designer" data-items="4" data-source="">
+    <input type="text" data-provide="typeahead" placeholder="Designer" data-items="4" data-source="", data-name="work">
   }
   @wrapInDiv("Azienda") {
-    <input type="text" data-provide="typeahead" placeholder="Olivetti" data-items="4" data-source="">
+    <input type="text" data-provide="typeahead" placeholder="Olivetti" data-items="4" data-source="" data-name="azienda">
   }
   @wrapInDiv("Locazione") {
-    <input type="text" placeholder="Ivrea, TO, Italia" id="placeInput" autocomplete="on">
+    <input type="text" placeholder="Ivrea, TO, Italia" id="placeInput" autocomplete="on" data-name="location">
   }
   @wrapInDiv("Immagine") {
-    <input type="url" placeholder="http://www.mywebsite.com/myimage.png" data-source="image">
+    <input type="url" placeholder="http://www.mywebsite.com/myimage.png" data-name="image">
     <img class="profileImage" src="@routes.Assets.at("img/blankPhoto.jpg")">
   }
 
   <div class="row">
-    <div class="fbImportButton offset1 span3">
+    <div class="socialImportButton offset1 span3">
       @fbButton("Importa da Facebook")
     </div>
   </div>

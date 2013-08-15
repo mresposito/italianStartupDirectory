@@ -2,7 +2,7 @@ package test
 
 import org.specs2.mutable._
 import org.startupDirectory.data.StoreFormatters
-import org.startupDirectory.data.Login
+import org.startupDirectory.data.User
 import play.api.test._
 import play.api.test.Helpers._
 import play.api.mvc.Session
@@ -63,16 +63,16 @@ class ApplicationSpec extends Specification {
 
       "user should be able to login" in {
         running(FakeApplication()) {
-          val baseLogin = Login("michele", "m@e.com", "facebook", "881133")
-          val request = FakeRequest(POST, "/fbLogin").withJsonBody(Json.toJson(baseLogin))
+          val baseUser = User("michele", "m@e.com", "facebook", "881133")
+          val request = FakeRequest(POST, "/fbLogin").withJsonBody(Json.toJson(baseUser))
           val home = route(request).get
-          val userFromRequest = Json.parse(contentAsString(home)).as[Login]
+          val userFromRequest = Json.parse(contentAsString(home)).as[User]
           
           status(home) must equalTo(200) 
           val ssn = session(home)
           ssn.get("user.id").toString must beEqualTo(userFromRequest.id.toString)
-          ssn.get("user.email").get must beEqualTo(baseLogin.email)
-          ssn.get("user.loginSecret").get must beEqualTo(baseLogin.loginSecret)
+          ssn.get("user.email").get must beEqualTo(baseUser.email)
+          ssn.get("user.loginSecret").get must beEqualTo(baseUser.loginSecret)
         }
       }
 

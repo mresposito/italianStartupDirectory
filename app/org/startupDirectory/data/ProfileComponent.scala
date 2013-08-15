@@ -2,12 +2,12 @@ package org.startupDirectory.data
 
 import java.sql.Timestamp
 
-case class Entity(id: Option[Long], name: String, email: String)
+case class Profile(id: Option[Long], name: String, email: String)
 
-trait EntityComponent { this: Profile =>
+trait ProfileComponent { this: SlickProfile =>
   import profile.simple._
 
-  object Entities extends Table[Entity]("entity") {
+  object Profiles extends Table[Profile]("profile") {
 
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
     def name = column[String]("name")
@@ -36,7 +36,7 @@ trait EntityComponent { this: Profile =>
     def contactMe = column[Int]("contact_me")
     def emailMe = column[Int]("email_me")
 
-    def * = id.? ~ name ~ email <> (Entity, Entity.unapply _)
+    def * = id.? ~ name ~ email <> (Profile, Profile.unapply _)
     def autoInc = * returning id
   }
 }

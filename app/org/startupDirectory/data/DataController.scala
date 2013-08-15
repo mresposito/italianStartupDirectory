@@ -18,8 +18,8 @@ import java.util.Date
 object StoreFormatters {
   import TimestampFormatter._
 
-  implicit val entityFormatter = Json.format[Entity]
-  implicit val loginFormatter = Json.format[Login]
+  implicit val profileFormatter = Json.format[Profile]
+  implicit val userFormatter = Json.format[User]
 }
 
 @Singleton
@@ -36,7 +36,7 @@ class EntityController @Inject()(entityStore: DAL, databaseConn: DatabaseConnect
    * Login the person, and create a new instance in the DB
    */
   def fbLogin = Action(parse.json) { request =>
-    request.body.validate[Login].map { user =>
+    request.body.validate[User].map { user =>
       database.withSession { implicit session: Session => 
 
         val id = entityStore.login(user)

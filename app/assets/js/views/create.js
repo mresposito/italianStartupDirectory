@@ -18,13 +18,6 @@ define ([
     initialize: function() {
       var step2 = this.getParameterByName("type")
 
-      // var textForm = $(this.el).find(".placeInput")
-      // var options = {
-      //   types: ['(cities)'],
-      //   componentRestrictions: {country: 'fr'}
-      // }
-      // var autocomplete = new google.maps.places.Autocomplete(textForm, options)
-
       if(step2 !== null) {
         this.loadStep2(step2)
       }
@@ -36,7 +29,14 @@ define ([
 
     submit: function(event) {
 
-      console.log("submit")
+      var inputs = $(this.el).find("input")
+      _.map(inputs, function(input) {
+        var val = $(input).val()
+        var key = $(input).data().name
+        if(val != "") {
+          console.log(key + ", " + val)
+        }
+      })
     },
 
     getParameterByName: function(name) {
