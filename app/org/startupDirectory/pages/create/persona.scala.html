@@ -19,7 +19,7 @@
 @inputForm(name: String, key:String, placeholder: String,
   validate: String = "text", attr: Html = Html("")) = {
   @wrapInDiv(name) {
-    <input type="@validate" data-name="@key" placeholder="@placeholder" @attr>
+    <input class="italianFlagGreen" type="@validate" data-name="@key" placeholder="@placeholder" @attr>
   }
 }
 
